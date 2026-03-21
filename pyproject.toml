@@ -3,16 +3,16 @@ requires = ["setuptools>=65.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "socratic-openclaw-skill"
+name = "socrates-ai-openclaw"
 version = "0.1.0"
-description = "Socratic method discovery skill for OpenClaw - modernized architecture using socratic-core"
+description = "OpenClaw framework integration for Socrates AI - Socratic method discovery skill"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
     {name = "Socrates AI Contributors", email = "support@socrates-ai.dev"}
 ]
-keywords = ["socrates", "ai", "openclaw", "discovery", "rag", "education"]
+keywords = ["socrates", "ai", "openclaw", "discovery", "skill", "framework"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -47,7 +47,7 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Nireus79/Socrates"
-Repository = "https://github.com/Nireus79/Socrates"
-Issues = "https://github.com/Nireus79/Socrates/issues"
-Documentation = "https://github.com/Nireus79/Socrates/tree/main/socratic-openclaw-skill/docs"
+Homepage = "https://github.com/Nireus79/Socrates-ai-openclaw"
+Repository = "https://github.com/Nireus79/Socrates-ai-openclaw"
+Issues = "https://github.com/Nireus79/Socrates-ai-openclaw/issues"
+Documentation = "https://github.com/Nireus79/Socrates-ai-openclaw#readme"
