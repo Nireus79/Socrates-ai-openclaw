@@ -3,9 +3,8 @@
 import json
 import uuid
 from datetime import datetime
-from pathlib import Path
 from typing import Any, Dict, Optional, List
-from socratic_core import SocratesConfig, EventEmitter, EventType
+from socratic_core import EventEmitter, EventType
 from .config import SocraticOpenclawConfig
 
 
