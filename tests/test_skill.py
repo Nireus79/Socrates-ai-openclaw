@@ -1,7 +1,5 @@
 """Tests for Socratic OpenClaw Skill."""
 
-import pytest
-
 
 def test_import_skill():
     """Test that skill can be imported."""
