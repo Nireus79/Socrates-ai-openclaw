@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "socrates-ai-openclaw"
-version = "0.1.0"
+version = "0.1.1"
 description = "OpenClaw framework integration for Socrates AI - Socratic method discovery skill"
 readme = "README.md"
 requires-python = ">=3.8"
