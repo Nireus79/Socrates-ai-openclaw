@@ -1,0 +1,12 @@
+LICENSE
+README.md
+pyproject.toml
+src/socrates_ai_openclaw.egg-info/PKG-INFO
+src/socrates_ai_openclaw.egg-info/SOURCES.txt
+src/socrates_ai_openclaw.egg-info/dependency_links.txt
+src/socrates_ai_openclaw.egg-info/requires.txt
+src/socrates_ai_openclaw.egg-info/top_level.txt
+src/socratic_openclaw_skill/__init__.py
+src/socratic_openclaw_skill/config.py
+src/socratic_openclaw_skill/skill.py
+tests/test_skill.py

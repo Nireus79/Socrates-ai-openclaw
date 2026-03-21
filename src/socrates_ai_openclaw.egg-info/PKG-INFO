@@ -1,0 +1,312 @@
+Metadata-Version: 2.4
+Name: socrates-ai-openclaw
+Version: 0.1.0
+Summary: OpenClaw framework integration for Socrates AI - Socratic method discovery skill
+Author-email: Socrates AI Contributors <support@socrates-ai.dev>
+License: MIT
+Project-URL: Homepage, https://github.com/Nireus79/Socrates-ai-openclaw
+Project-URL: Repository, https://github.com/Nireus79/Socrates-ai-openclaw
+Project-URL: Issues, https://github.com/Nireus79/Socrates-ai-openclaw/issues
+Project-URL: Documentation, https://github.com/Nireus79/Socrates-ai-openclaw#readme
+Keywords: socrates,ai,openclaw,discovery,skill,framework
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: socratic-core>=0.1.1
+Requires-Dist: anthropic>=0.40.0
+Requires-Dist: chromadb>=0.5.0
+Requires-Dist: sentence-transformers>=3.0.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: black>=23.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+Requires-Dist: mypy>=1.0; extra == "dev"
+Dynamic: license-file
+
+# Socratic OpenClaw Skill - Modern Architecture
+
+**Socratic method discovery skill for OpenClaw using modern modular architecture**
+
+This is the modernized replacement for the deprecated `socrates-ai-openclaw` package. It uses the latest `socratic-core` library instead of the monolithic `socrates-ai` package.
+
+## Features
+
+🎓 **Socratic Discovery** - Claude-guided questioning for project discovery
+📚 **RAG Knowledge Base** - Vector embeddings with ChromaDB for context-aware responses
+📊 **Specification Generation** - Auto-generate requirements, architecture, and project specs
+💾 **Session Persistence** - Resume discoveries anytime
+🔄 **Multi-turn Conversations** - Natural dialogue flow with context tracking
+⚡ **Production Ready** - Built on battle-tested socratic-core library
+
+## Installation
+
+```bash
+pip install socratic-openclaw-skill
+```
+
+## Quick Start
+
+```python
+from socratic_openclaw_skill import SocraticDiscoverySkill
+
+# Initialize the skill
+skill = SocraticDiscoverySkill()
+
+# Start a discovery session
+result = await skill.start_discovery("AI-powered SaaS application")
+print(result["question"])
+# Output: "What problem does this solve for your target users?"
+
+# Respond to the question
+result = await skill.respond(result["session_id"], "Helps teams manage projects efficiently")
+print(result["question"])
+
+# Generate a specification
+result = await skill.generate(result["session_id"])
+print(result["spec"])
+```
+
+## With OpenClaw
+
+```bash
+# Install OpenClaw
+pip install openclaw
+
+# Socratic discovery is automatically available
+# Users can start a discovery session in their preferred channel
+```
+
+In OpenClaw chat:
+```
+User: "Help me plan a new project"
+OpenClaw: "I'll guide you through Socratic discovery. Question 1: What problem does this solve?"
+User: "Tracks team time efficiently"
+OpenClaw: "Question 2: Who are your target users?"
+... (continues for 5-8 turns)
+User: "Generate a spec"
+OpenClaw: "Here's your project specification..."
+```
+
+## Architecture
+
+```
+User Input (OpenClaw)
+↓
+SocraticDiscoverySkill (Modern)
+↓
+├─ SessionManager (track sessions)
+├─ QuestionEngine (generate questions)
+├─ ResponseProcessor (handle answers)
+├─ SpecGenerator (create specs)
+└─ StorageHandler (persist data)
+↓
+socratic-core Library (Foundation)
+↓
+├─ SocratesConfig
+├─ EventEmitter
+├─ Exception hierarchy
+└─ Logging infrastructure
+↓
+Claude API (LLM)
+ChromaDB (RAG)
+```
+
+## Configuration
+
+### Environment Variables
+
+```bash
+# Required
+export ANTHROPIC_API_KEY="sk-ant-..."
+
+# Optional
+export SOCRATIC_MODEL="claude-opus-4-5"
+export SOCRATIC_TEMPERATURE="0.7"
+export SOCRATIC_WORKSPACE_ROOT="~/.openclaw/workspace"
+```
+
+### Programmatic Configuration
+
+```python
+from socratic_openclaw_skill import SocraticDiscoverySkill
+from pathlib import Path
+
+skill = SocraticDiscoverySkill(
+    workspace_root=Path.home() / ".openclaw" / "workspace",
+    model="claude-opus-4-5",
+    temperature=0.7
+)
+```
+
+## API Reference
+
+### SocraticDiscoverySkill
+
+#### `start_discovery(topic: str) -> Dict`
+
+Start a new Socratic discovery session.
+
+**Parameters:**
+- `topic` (str): The project or concept to discover
+
+**Returns:**
+```python
+{
+    "status": "started",
+    "session_id": "discover_1234567890_abc",
+    "topic": "AI-powered expense tracker",
+    "question": "What problem does this solve?",
+    "progress": {"step": 1}
+}
+```
+
+#### `respond(session_id: str, response: str) -> Dict`
+
+Record user response and get next question.
+
+**Parameters:**
+- `session_id` (str): Session ID from start_discovery
+- `response` (str): User's response to previous question
+
+**Returns:**
+```python
+{
+    "status": "question_asked",
+    "session_id": "discover_...",
+    "question": "Who is your target user?",
+    "progress": {"questions_asked": 2, "responses_recorded": 1}
+}
+```
+
+#### `generate(session_id: str) -> Dict`
+
+Generate project specification from discovery.
+
+**Parameters:**
+- `session_id` (str): Session ID from start_discovery
+
+**Returns:**
+```python
+{
+    "status": "spec_generated",
+    "session_id": "discover_...",
+    "spec": "# Project Name\n\n## Overview\n...",
+    "saved_to": "~/.openclaw/workspace/projects/project-name/PROJECT.md",
+    "artifacts": ["PROJECT.md", "REQUIREMENTS.md", "ARCHITECTURE.md"]
+}
+```
+
+## Migration from socrates-ai-openclaw
+
+The old `socrates-ai-openclaw` package is deprecated and broken. Use this package instead:
+
+### Before (Broken):
+```bash
+# ❌ BROKEN - depends on non-existent socrates-ai>=1.3.0
+pip install socrates-ai-openclaw
+```
+
+### Now (Works):
+```bash
+# ✅ WORKS - uses modern modular architecture
+pip install socratic-openclaw-skill
+```
+
+### Code Changes
+
+```python
+# Old (broken)
+from socrates_openclaw import SocraticDiscoverySkill
+
+# New (works)
+from socratic_openclaw_skill import SocraticDiscoverySkill
+```
+
+## Storage
+
+Projects are stored in your workspace directory:
+
+```
+~/.openclaw/workspace/
+├── projects/
+│   ├── project-name-1/
+│   │   ├── PROJECT.md
+│   │   ├── REQUIREMENTS.md
+│   │   ├── ARCHITECTURE.md
+│   │   └── .session-*.json
+│   └── project-name-2/
+├── .socrates-vectors/     (ChromaDB embeddings)
+├── .socrates-kb/          (Knowledge base)
+└── .socratic-sessions.json (Session tracking)
+```
+
+All data is stored locally - no cloud upload.
+
+## Troubleshooting
+
+### API Key Issues
+
+```python
+# Error: Anthropic key not found
+# Solution:
+export ANTHROPIC_API_KEY="sk-ant-..."
+
+# Or in code:
+import os
+os.environ["ANTHROPIC_API_KEY"] = "your-key"
+```
+
+### Missing Dependencies
+
+```bash
+# If you get import errors:
+pip install socratic-openclaw-skill[dev]
+```
+
+## Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch
+3. Write tests
+4. Submit a pull request
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+## Support
+
+- **GitHub Issues**: [Report bugs](https://github.com/Nireus79/Socrates/issues)
+- **Documentation**: [Full docs](docs/)
+- **Email**: support@socrates-ai.dev
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file
+
+## Acknowledgments
+
+Built with:
+- [socratic-core](https://pypi.org/project/socratic-core/) - Foundation library
+- [Anthropic Claude](https://anthropic.com) - LLM
+- [ChromaDB](https://www.trychroma.com/) - Vector storage
+- [OpenClaw](https://openclaw.ai) - AI assistant platform
+
+---
+
+**Made with ❤️ for the Socrates and OpenClaw communities**

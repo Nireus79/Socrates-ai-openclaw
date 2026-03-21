@@ -30,7 +30,7 @@ class SocraticDiscoverySkill:
         sessions_file = self.config.workspace_root / ".socratic-sessions.json"
         if sessions_file.exists():
             try:
-                with open(sessions_file, 'r') as f:
+                with open(sessions_file, "r") as f:
                     self.sessions = json.load(f)
             except Exception:
                 self.sessions = {}
@@ -38,7 +38,7 @@ class SocraticDiscoverySkill:
     def _save_sessions(self) -> None:
         """Save sessions to storage."""
         sessions_file = self.config.workspace_root / ".socratic-sessions.json"
-        with open(sessions_file, 'w') as f:
+        with open(sessions_file, "w") as f:
             json.dump(self.sessions, f, indent=2)
 
     async def start_discovery(self, topic: str) -> Dict[str, Any]:
@@ -54,7 +54,7 @@ class SocraticDiscoverySkill:
 
         self.emitter.emit(
             EventType.SYSTEM_INITIALIZED,
-            {"session_id": session_id, "topic": topic, "action": "discovery_started"}
+            {"session_id": session_id, "topic": topic, "action": "discovery_started"},
         )
 
         # Initialize session
@@ -99,7 +99,7 @@ class SocraticDiscoverySkill:
 
         self.emitter.emit(
             EventType.AGENT_START,
-            {"session_id": session_id, "step": len(session["responses"]), "response": response}
+            {"session_id": session_id, "step": len(session["responses"]), "response": response},
         )
 
         # Check if we have enough responses for spec generation
@@ -120,17 +120,14 @@ class SocraticDiscoverySkill:
         else:
             # Generate next question
             next_question = await self._generate_question(
-                session_id,
-                session["topic"],
-                session["responses"]
+                session_id, session["topic"], session["responses"]
             )
             session["questions"].append(next_question)
 
         self._save_sessions()
 
         self.emitter.emit(
-            EventType.AGENT_COMPLETE,
-            {"session_id": session_id, "step": len(session["questions"])}
+            EventType.AGENT_COMPLETE, {"session_id": session_id, "step": len(session["questions"])}
         )
 
         return {
@@ -161,30 +158,30 @@ class SocraticDiscoverySkill:
         if len(session["responses"]) < self.config.min_responses:
             return {
                 "status": "error",
-                "message": f"Need at least {self.config.min_responses} responses to generate spec"
+                "message": f"Need at least {self.config.min_responses} responses to generate spec",
             }
 
         self.emitter.emit(
-            EventType.AGENT_START,
-            {"session_id": session_id, "action": "spec_generation"}
+            EventType.AGENT_START, {"session_id": session_id, "action": "spec_generation"}
         )
 
         spec = await self._generate_spec(session_id)
         session["spec"] = spec
 
         # Save spec to workspace
-        project_dir = self.config.workspace_root / "projects" / self._sanitize_name(session["topic"])
+        project_dir = (
+            self.config.workspace_root / "projects" / self._sanitize_name(session["topic"])
+        )
         project_dir.mkdir(parents=True, exist_ok=True)
 
         spec_file = project_dir / "PROJECT.md"
-        with open(spec_file, 'w') as f:
+        with open(spec_file, "w") as f:
             f.write(spec)
 
         self._save_sessions()
 
         self.emitter.emit(
-            EventType.AGENT_COMPLETE,
-            {"session_id": session_id, "action": "spec_generation"}
+            EventType.AGENT_COMPLETE, {"session_id": session_id, "action": "spec_generation"}
         )
 
         return {
@@ -196,10 +193,7 @@ class SocraticDiscoverySkill:
         }
 
     async def _generate_question(
-        self,
-        session_id: str,
-        topic: str,
-        previous_responses: List[str]
+        self, session_id: str, topic: str, previous_responses: List[str]
     ) -> str:
         """Generate next discovery question using Claude.
 
