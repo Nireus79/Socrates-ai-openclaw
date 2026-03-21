@@ -1,0 +1,11 @@
+LICENSE
+README.md
+pyproject.toml
+src/socratic_openclaw_skill/__init__.py
+src/socratic_openclaw_skill/config.py
+src/socratic_openclaw_skill/skill.py
+src/socratic_openclaw_skill.egg-info/PKG-INFO
+src/socratic_openclaw_skill.egg-info/SOURCES.txt
+src/socratic_openclaw_skill.egg-info/dependency_links.txt
+src/socratic_openclaw_skill.egg-info/requires.txt
+src/socratic_openclaw_skill.egg-info/top_level.txt
