@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Socrates AI Contributors", email = "support@socrates-ai.dev"}
+    {name = "Efthimios Angelopoulos", email = "Hermes_creative@proton.me"}
 ]
 keywords = ["socrates", "ai", "openclaw", "discovery", "skill", "framework"]
 classifiers = [
